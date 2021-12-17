@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.bj_one.fw.repo.MBjInfoRepository">
+  <select id="selectPrimaryKey" parameterType="jp.bj_one.fw.entity.MBjInfoEntity"
+    resultType="jp.bj_one.fw.entity.MBjInfoEntity">
+  <![CDATA[
+    select
+      *
+    from
+      bj_info
+    where
+      seq = #{seq}
+  ]]>
+  </select>
+
+  <insert id="insert" parameterType="jp.bj_one.fw.entity.MBjInfoEntity">
+  <![CDATA[
+    insert into bj_info (
+      seq
+      , kbn
+      , date
+      , title
+      , text_info
+      , important
+      , period_from
+      , period_to
+    ) values (
+      ( 
+        select
+          ifnull(max(cast(a.seq as decimal)) + 1, 1) 
+        from
+          (select * from bj_info) as a 
+      ) 
+      , #{kbn}
+      , #{date}
+      , #{title}
+      , #{textInfo}
+      , #{important}
+      , #{periodFrom}
+      , #{periodTo}
+    )
+  ]]>
+  </insert>
+
+  <update id="update" parameterType="jp.bj_one.fw.entity.MBjInfoEntity">
+  <![CDATA[
+    update bj_info set
+      kbn = #{kbn}
+      , date = #{date}
+      , title = #{title}
+      , text_info = #{textInfo}
+      , important = #{important}
+      , period_from = #{periodFrom}
+      , period_to = #{periodTo}
+    where
+      seq = #{seq}
+  ]]>
+  </update>
+
+  <delete id="delete" parameterType="jp.bj_one.fw.entity.MBjInfoEntity">
+  <![CDATA[
+    delete from
+      bj_info
+    where
+      seq = #{seq}
+  ]]>
+  </delete>
+</mapper>

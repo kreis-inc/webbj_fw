@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.bj_one.fw.repo.BjMSystemInfoRepository">
+  <select id="selectPrimaryKey" parameterType="jp.bj_one.fw.entity.BjMSystemInfoEntity"
+    resultType="jp.bj_one.fw.entity.BjMSystemInfoEntity">
+  <![CDATA[
+    SELECT
+      bj_system_id
+      , bj_company
+      , bj_remarks
+      , bj_db
+      , bj_appserver
+      , bj_java_version
+      , bj_etc
+      , bj_repo
+      , bj_yukokigen_month
+      , bj_password_ch_day
+      , bj_number_generations
+      , bj_retry
+      , bj_log_flg
+      , bj_lock_flg
+      , bj_password_chk_str
+      , bj_create_date
+      , bj_create_id
+      , bj_update_date
+      , bj_update_id
+      , revision
+      , bj_delete_flg
+    FROM
+      bj_m_system_info
+    WHERE
+      bj_system_id = #{bjSystemId}
+  ]]>
+  </select>
+
+  <insert id="insert" parameterType="jp.bj_one.fw.entity.BjMSystemInfoEntity">
+  <![CDATA[
+    INSERT INTO bj_m_system_info (
+      bj_system_id
+      , bj_company
+      , bj_remarks
+      , bj_db
+      , bj_appserver
+      , bj_java_version
+      , bj_etc
+      , bj_repo
+      , bj_yukokigen_month
+      , bj_password_ch_day
+      , bj_number_generations
+      , bj_retry
+      , bj_log_flg
+      , bj_lock_flg
+      , bj_password_chk_str
+      , bj_create_date
+      , bj_create_id
+      , bj_update_date
+      , bj_update_id
+      , revision
+      , bj_delete_flg
+    ) VALUES (
+      #{bjSystemId}
+      , #{bjCompany}
+      , #{bjRemarks}
+      , #{bjDb}
+      , #{bjAppserver}
+      , #{bjJavaVersion}
+      , #{bjEtc}
+      , #{bjRepo}
+      , #{bjYukokigenMonth}
+      , #{bjPasswordChDay}
+      , #{bjNumberGenerations}
+      , #{bjRetry}
+      , #{bjLogFlg}
+      , #{bjLockFlg}
+      , #{bjPasswordChkStr}
+      , #{bjCreateDate}
+      , #{bjCreateId}
+      , #{bjUpdateDate}
+      , #{bjUpdateId}
+      , #{revision}
+      , #{bjDeleteFlg}
+   )
+  ]]>
+  </insert>
+
+  <update id="update" parameterType="jp.bj_one.fw.entity.BjMSystemInfoEntity">
+  <![CDATA[
+    UPDATE bj_m_system_info SET
+      bj_company = #{bjCompany}
+      , bj_remarks = #{bjRemarks}
+      , bj_db = #{bjDb}
+      , bj_appserver = #{bjAppserver}
+      , bj_java_version = #{bjJavaVersion}
+      , bj_etc = #{bjEtc}
+      , bj_repo = #{bjRepo}
+      , bj_yukokigen_month = #{bjYukokigenMonth}
+      , bj_password_ch_day = #{bjPasswordChDay}
+      , bj_number_generations = #{bjNumberGenerations}
+      , bj_retry = #{bjRetry}
+      , bj_log_flg = #{bjLogFlg}
+      , bj_lock_flg = #{bjLockFlg}
+      , bj_password_chk_str = #{bjPasswordChkStr}
+      , bj_create_date = #{bjCreateDate}
+      , bj_create_id = #{bjCreateId}
+      , bj_update_date = #{bjUpdateDate}
+      , bj_update_id = #{bjUpdateId}
+      , revision = #{revision}
+      , bj_delete_flg = #{bjDeleteFlg}
+    WHERE
+      bj_system_id = #{bjSystemId}
+  ]]>
+  </update>
+
+  <delete id="delete" parameterType="jp.bj_one.fw.entity.BjMSystemInfoEntity">
+  <![CDATA[
+    DELETE FROM
+      bj_m_system_info
+    WHERE
+      bj_system_id = #{bjSystemId}
+  ]]>
+  </delete>
+</mapper>

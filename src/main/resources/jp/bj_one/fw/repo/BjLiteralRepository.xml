@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.bj_one.fw.repo.BjLiteralRepository">
+
+  <select id="selectLiteralList" parameterType="jp.bj_one.fw.entity.BjLiteralParamEntity"
+    resultType="jp.bj_one.fw.entity.BjLiteralEntity">
+    SELECT
+      ITEMS.LITERAL_GROUP_ID
+      , ITEMS.LITERAL_ITEM_ID
+      , ITEMS.LITERAL_ITEM_NAME
+      , BJ_M_LITERAL_KEYS.LITERAL_KEY_TYPE AS LITERAL_VALUE_TYPE,
+      CASE WHEN BJ_M_LITERAL_KEYS.LITERAL_KEY_TYPE = 'CHARACTER' THEN
+        BJ_F_GET_LITERAL_CHAR(ITEMS.LITERAL_GROUP_ID, ITEMS.LITERAL_ITEM_ID, #{codeColumn}) END AS LITERAL_STRING_VALUE,
+      CASE WHEN BJ_M_LITERAL_KEYS.LITERAL_KEY_TYPE = 'DATE' THEN
+        BJ_F_GET_LITERAL_DATE(ITEMS.LITERAL_GROUP_ID, ITEMS.LITERAL_ITEM_ID, #{codeColumn}) END AS LITERAL_DATE_VALUE,
+      CASE WHEN BJ_M_LITERAL_KEYS.LITERAL_KEY_TYPE = 'NUMBER' THEN
+        BJ_F_GET_LITERAL_NUMBER(ITEMS.LITERAL_GROUP_ID, ITEMS.LITERAL_ITEM_ID, #{codeColumn}) END AS LITERAL_NUM_VALUE,
+      BJ_F_GET_LITERAL_NUMBER(ITEMS.LITERAL_GROUP_ID, ITEMS.LITERAL_ITEM_ID, #{orderColumn}) AS ORDER_VALUE
+    FROM
+      BJ_M_LITERAL_ITEMS ITEMS
+    INNER JOIN BJ_M_LITERAL_KEYS ON
+      BJ_M_LITERAL_KEYS.LITERAL_KEY = #{codeColumn}
+    WHERE
+      ITEMS.LITERAL_GROUP_ID = #{literalGroup}
+    ORDER BY ORDER_VALUE
+  </select>
+
+  <select id="selectMasterList" parameterType="jp.bj_one.fw.entity.BjLiteralParamEntity"
+    resultType="jp.bj_one.fw.entity.BjLiteralEntity">
+    SELECT
+      ${nameColumn} AS LITERAL_ITEM_NAME
+      , ${codeColumn} AS LITERAL_STRING_VALUE
+    FROM
+      ${tableName}
+    ORDER BY ${orderColumn}
+  </select>
+
+  <select id="selectLiteralItems" parameterType="jp.bj_one.fw.entity.BjLiteralItemEntity"
+    resultType="jp.bj_one.fw.entity.BjLiteralItemEntity">
+    SELECT
+      *
+    FROM
+      BJ_M_LITERAL_ITEMS i
+    WHERE
+      i.LITERAL_GROUP_ID = #{literalGroupId} 
+      <if test='literalItemId != null and literalItemId != ""'>
+        AND i.LITERAL_ITEM_ID = #{literalItemId}
+      </if>
+  </select>
+  
+  <select id="selectItemValues" parameterType="jp.bj_one.fw.entity.BjLiteralItemEntity"
+    resultType="jp.bj_one.fw.entity.BjLiteralEntity">
+    SELECT
+      d.LITERAL_KEY
+      , k.LITERAL_KEY_TYPE as LITERAL_VALUE_TYPE
+      , d.LITERAL_VALUE as LITERAL_STRING_VALUE
+    FROM
+      BJ_M_LITERAL_DATAMAP d 
+      INNER JOIN BJ_M_LITERAL_KEYS k 
+        ON d.LITERAL_KEY = k.LITERAL_KEY 
+    WHERE
+      d.LITERAL_GROUP_ID = #{literalGroupId} 
+      AND d.LITERAL_ITEM_ID = #{literalItemId}
+  </select>
+</mapper>

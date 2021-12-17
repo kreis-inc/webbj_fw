@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.bj_one.fw.repo.MLoginRepository">
+  <select id="selectPrimaryKey" parameterType="jp.bj_one.fw.entity.MLoginEntity"
+    resultType="jp.bj_one.fw.entity.MLoginEntity">
+  <![CDATA[
+    SELECT
+      COMPANY_CD
+      , USER_ID
+      , USER_NAME
+      , ADMIN_FLG
+      , PASSWORD
+      , STOP_FLG
+      , REMARKS
+      , CREATE_DATE
+      , CREATE_USER_ID
+      , CREATE_USER_NAME
+      , UPDATE_DATE
+      , UPDATE_USER_ID
+      , UPDATE_USER_NAME
+      , REVISION
+    FROM
+      M_LOGIN
+    WHERE
+      COMPANY_CD = #{companyCd}
+      AND USER_ID = #{userId}
+  ]]>
+  </select>
+
+  <insert id="insert" parameterType="jp.bj_one.fw.entity.MLoginEntity">
+  <![CDATA[
+    INSERT INTO M_LOGIN (
+      COMPANY_CD
+      , USER_ID
+      , USER_NAME
+      , ADMIN_FLG
+      , PASSWORD
+      , STOP_FLG
+      , REMARKS
+      , CREATE_DATE
+      , CREATE_USER_ID
+      , CREATE_USER_NAME
+      , UPDATE_DATE
+      , UPDATE_USER_ID
+      , UPDATE_USER_NAME
+      , REVISION
+    ) VALUES (
+      #{companyCd}
+      , #{userId}
+      , #{userName}
+      , #{adminFlg}
+      , #{password}
+      , #{stopFlg}
+      , #{remarks}
+      , #{createDate, jdbcType=TIMESTAMP}
+      , #{createUserId}
+      , #{createUserName}
+      , #{updateDate, jdbcType=TIMESTAMP}
+      , #{updateUserId}
+      , #{updateUserName}
+      , #{revision}
+   )
+  ]]>
+  </insert>
+
+  <update id="update" parameterType="jp.bj_one.fw.entity.MLoginEntity">
+  <![CDATA[
+    UPDATE M_LOGIN SET
+      COMPANY_CD = #{companyCd}
+      , USER_ID = #{userId}
+      , USER_NAME = #{userName}
+      , ADMIN_FLG = #{adminFlg}
+      , PASSWORD = #{password}
+      , STOP_FLG = #{stopFlg}
+      , REMARKS = #{remarks}
+      , CREATE_DATE = #{createDate, jdbcType=TIMESTAMP}
+      , CREATE_USER_ID = #{createUserId}
+      , CREATE_USER_NAME = #{createUserName}
+      , UPDATE_DATE = #{updateDate, jdbcType=TIMESTAMP}
+      , UPDATE_USER_ID = #{updateUserId}
+      , UPDATE_USER_NAME = #{updateUserName}
+      , REVISION = #{revision}
+    WHERE
+      COMPANY_CD = #{companyCd}
+      AND USER_ID = #{userId}
+  ]]>
+  </update>
+
+  <delete id="delete" parameterType="jp.bj_one.fw.entity.MLoginEntity">
+  <![CDATA[
+    DELETE FROM
+      M_LOGIN
+    WHERE
+      COMPANY_CD = #{companyCd}
+      AND USER_ID = #{userId}
+  ]]>
+  </delete>
+
+  <sql id="condition">
+    <where>
+      <if test="companyCd != null and companyCd != ''">
+        AND COMPANY_CD = #{companyCd}
+      </if>
+      <if test="userId != null and userId != ''">
+        AND USER_ID = #{userId}
+      </if>
+    </where>
+  </sql>
+
+  <select id="count" parameterType="jp.bj_one.fw.entity.MLoginEntity"
+    resultType="Integer">
+    SELECT
+      COUNT(*)
+    FROM
+      M_LOGIN
+    <include refid="condition" />
+  </select>
+
+  <select id="search" parameterType="jp.bj_one.fw.entity.MLoginEntity"
+    resultType="jp.bj_one.fw.entity.MLoginEntity">
+    SELECT
+      COMPANY_CD
+      , USER_ID
+      , USER_NAME
+      , ADMIN_FLG
+      , PASSWORD
+      , STOP_FLG
+      , REMARKS
+      , CREATE_DATE
+      , CREATE_USER_ID
+      , CREATE_USER_NAME
+      , UPDATE_DATE
+      , UPDATE_USER_ID
+      , UPDATE_USER_NAME
+      , REVISION
+    FROM
+      M_LOGIN
+    <include refid="condition" />
+    ORDER BY COMPANY_CD, USER_ID
+    <include refid="jp.bj_one.fw.repo.BjRepository.pageLimitForSqlServer" />
+  </select>
+  
+  <select id="findOne" parameterType="jp.bj_one.fw.entity.MLoginEntity" resultType="jp.bj_one.fw.entity.MLoginEntity">
+    SELECT * FROM M_LOGIN WHERE USER_ID = #{userId}
+    AND STOP_FLG IS NULL
+  </select>
+  
+</mapper>

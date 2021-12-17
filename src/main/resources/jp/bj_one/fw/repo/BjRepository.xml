@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.bj_one.fw.repo.BjRepository">
+
+  <sql id="pageLimitForSqlServer">
+    <if test="perPage != 0">
+      <bind name="startLineNo" value="@jp.bj_one.fw.common.RepositoryUtil@getStartLineNo(perPage, nowPage)" />
+      <bind name="endLineNo" value="@jp.bj_one.fw.common.RepositoryUtil@getNextLineNo(perPage)" />
+      OFFSET #{startLineNo} ROWS FETCH NEXT #{endLineNo} ROWS ONLY
+    </if>
+  </sql>
+
+  <sql id="prePageLimitForOracle">
+    SELECT
+      *
+    FROM (
+  </sql>
+
+  <sql id="postPageLimitForOracle">
+    <bind name="startLineNo" value="@jp.bj_one.fw.common.RepositoryUtil@getStartLineNo(perPage, nowPage)" />
+    <bind name="endLineNo" value="@jp.bj_one.fw.common.RepositoryUtil@getNextLineNo(perPage)" />
+    )
+    WHERE
+      <![CDATA[
+      (#{startLineNo} is null or line_no >= #{startLineNo})
+    AND (#{endLineNo} is null or line_no <= #{endLineNo})
+      ]]>
+    ORDER BY line_no
+  </sql>
+
+  <sql id="pageLimitForMySQL">
+    <if test="perPage != null and perPage &gt; 0">
+      <bind name="startLineNo" value="@jp.bj_one.fw.common.RepositoryUtil@getStartLineNo(perPage, nowPage)" />
+      <bind name="endLineNo" value="@jp.bj_one.fw.common.RepositoryUtil@getNextLineNo(perPage)" />
+      LIMIT #{startLineNo}, #{endLineNo}
+    </if>
+  </sql>
+
+  <sql id="literalValueSQL">
+    <if test="literalType != null and literalType == 'literalStringValue'">
+      dbo.BJ_F_GET_LITERAL_CHAR(LITERAL_GROUP_ID, LITERAL_ITEM_ID, #{literalKey}) AS #{literalType}
+    </if>
+    <if test="literalType != null and literalType == 'literalDateValue'">
+      dbo.BJ_F_GET_LITERAL_DATE(LITERAL_GROUP_ID, LITERAL_ITEM_ID, #{literalKey}) AS #{literalType}
+    </if>
+    <if test="literalType != null and literalType == 'literalNumValue'">
+      dbo.BJ_F_GET_LITERAL_NUMBER(LITERAL_GROUP_ID, LITERAL_ITEM_ID, #{literalKey}) AS #{literalType}
+    </if>
+  </sql>
+</mapper>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.bj_one.fw.repo.BjLogOperationRepository">
+  <select id="selectPrimaryKey" parameterType="jp.bj_one.fw.entity.BjLogOperationEntity"
+    resultType="jp.bj_one.fw.entity.BjLogOperationEntity">
+  <![CDATA[
+    SELECT
+      seq
+      , object
+      , status
+      , date
+      , ip
+      , system_id
+      , user_id
+      , user_name
+      , service_id
+      , service_name
+      , action_id
+      , action_name
+      , trigger_ctrl_id
+      , trigger_event_id
+      , change_screen_id
+      , change_screen_name
+      , error_cd
+      , error
+      , input
+      , actiontime
+    FROM
+      bj_log_operation
+    WHERE
+      seq = #{seq}
+  ]]>
+  </select>
+
+  <insert id="insert" parameterType="jp.bj_one.fw.entity.BjLogOperationEntity">
+  <![CDATA[
+    INSERT INTO bj_log_operation (
+      seq
+      , object
+      , status
+      , date
+      , ip
+      , system_id
+      , user_id
+      , user_name
+      , service_id
+      , service_name
+      , action_id
+      , action_name
+      , trigger_ctrl_id
+      , trigger_event_id
+      , change_screen_id
+      , change_screen_name
+      , error_cd
+      , error
+      , input
+      , actiontime
+    ) VALUES (
+      #{seq}
+      , #{object}
+      , #{status}
+      , #{date}
+      , #{ip}
+      , #{systemId}
+      , #{userId}
+      , #{userName}
+      , #{serviceId}
+      , #{serviceName}
+      , #{actionId}
+      , #{actionName}
+      , #{triggerCtrlId}
+      , #{triggerEventId}
+      , #{changeScreenId}
+      , #{changeScreenName}
+      , #{errorCd}
+      , #{error}
+      , #{input}
+      , #{actiontime}
+   )
+  ]]>
+  </insert>
+
+  <update id="update" parameterType="jp.bj_one.fw.entity.BjLogOperationEntity">
+  <![CDATA[
+    UPDATE bj_log_operation SET
+      object = #{object}
+      , status = #{status}
+      , date = #{date}
+      , ip = #{ip}
+      , system_id = #{systemId}
+      , user_id = #{userId}
+      , user_name = #{userName}
+      , service_id = #{serviceId}
+      , service_name = #{serviceName}
+      , action_id = #{actionId}
+      , action_name = #{actionName}
+      , trigger_ctrl_id = #{triggerCtrlId}
+      , trigger_event_id = #{triggerEventId}
+      , change_screen_id = #{changeScreenId}
+      , change_screen_name = #{changeScreenName}
+      , error_cd = #{errorCd}
+      , error = #{error}
+      , input = #{input}
+      , actiontime = #{actiontime}
+    WHERE
+      seq = #{seq}
+  ]]>
+  </update>
+
+  <delete id="delete" parameterType="jp.bj_one.fw.entity.BjLogOperationEntity">
+  <![CDATA[
+    DELETE FROM
+      bj_log_operation
+    WHERE
+      seq = #{seq}
+  ]]>
+  </delete>
+</mapper>
