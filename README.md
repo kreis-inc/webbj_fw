@@ -1,6 +1,6 @@
 ![](https://i.imgur.com/xTg3XL6.png)
 
-# webbj_fw
+# webbj_fw (WEBBJアプリケーションに必要なライブラリ）
 >Webbj Java springframework engin
 >WEBBjGeneratorで生成したJavaソースコードをWEBApplicationとして動かす為のSpringフレームワークをラッピングしたライブラリ。
 >WEBBj業務アプリケーション側で必須のライブラリーとなります。mevenプロジェクト形式になります。
